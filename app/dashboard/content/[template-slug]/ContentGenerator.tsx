@@ -10,7 +10,7 @@ import { AIOutput } from '@/utils/schema'
 import { useUser } from '@clerk/nextjs'
 import { useContext } from 'react'
 import { TotalUsageContext } from '@/app/(context)/TotalUsageContext'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { UserSubscriptionContext } from "@/app/(context)/UserSubscriptionContext"
 import { UpdateCreditUsageContext } from "@/app/(context)/UpdateCreditUsageContext"
 
