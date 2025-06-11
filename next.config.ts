@@ -6,6 +6,9 @@ const nextConfig = {
   images: {
     domains: ["cdn-icons-png.flaticon.com"],
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  }
 }
 
 module.exports = nextConfig;

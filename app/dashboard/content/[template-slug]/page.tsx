@@ -1,10 +1,20 @@
 import { Suspense } from 'react'
 import ContentGenerator from './ContentGenerator'
+import { use } from 'react'
 
-export default function Page({ params }: { params: { 'template-slug': string } }) {
+interface PageProps {
+    params: {
+        'template-slug': string
+    }
+}
+
+export default function Page({ params }: PageProps) {
+    // Ensure the params are properly typed and handled
+    const templateSlug = params['template-slug']
+
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <ContentGenerator templateSlug={params['template-slug']} />
+            <ContentGenerator templateSlug={templateSlug} />
         </Suspense>
     )
 }
