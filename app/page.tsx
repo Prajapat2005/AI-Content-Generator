@@ -1,15 +1,17 @@
-"use client"
-import { Button } from "../components/ui/button";
-import { useRouter } from 'next/navigation';
+import Header from "./_components/Header"
+import HeroSection from "./_components/HeroSection"
+import Features from "./_components/Features"
+import Review from "./_components/Review"
+import Footer from "./_components/Footer"
 
-export default function Home() {
-
-  const router = useRouter();
-
+export default function LandingPage() {
   return (
-    <div>
-
-      <Button onClick={() => router.push('/dashboard')}>Click to start</Button>
+    <div className="min-h-screen bg-white">
+      <Header />
+      <HeroSection />
+      <Features />
+      <Review />
+      <Footer />
     </div>
-  );
+  )
 }

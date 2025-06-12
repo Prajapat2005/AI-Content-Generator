@@ -39,12 +39,12 @@ const SideNav = () => {
     }, []);
 
     return (
-        <div className='relative h-screen p-5 shadow-sm border bg-white'>
+        <div className='relative h-screen p-2 shadow-sm border bg-white'>
             <div className='flex items-center justify-center'>
                 <Image src={'/logo.svg'} alt="logo" width={100} height={70} />
             </div>
 
-            <hr className='my-6 border' />
+            <hr className='my-3 border' />
 
             <div className="">
                 {MenuList.map((menu, index) => (
@@ -52,12 +52,12 @@ const SideNav = () => {
                     gap-2 mb-2 p-3 hover:bg-primary hover:text-white rounded-md cursor-pointer items-center ${path == menu.path && "bg-primary text-white"}`} key={index}
                         onClick={() => router.push(menu.path)}>
                         <menu.icon />
-                        <h2 className='text-lg'>{menu.name}</h2>
+                        <h2 className='text-sm'>{menu.name}</h2>
                     </div>
                 ))}
             </div>
 
-            <div className='absolute bottom-10 left-0 w-full'>
+            <div className='absolute bottom-2 left-0 w-full'>
                 <UsageTrack />
             </div>
         </div >
