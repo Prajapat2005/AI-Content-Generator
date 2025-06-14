@@ -6,7 +6,7 @@ import Footer from "./_components/Footer"
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       <Header />
       <HeroSection />
       <Features />

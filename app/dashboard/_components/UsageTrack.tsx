@@ -5,12 +5,14 @@ import { currentUser } from '@clerk/nextjs/server'
 import { useUser } from '@clerk/nextjs';
 import { AIOutput, UserSubscription } from '@/utils/schema';
 import { db } from '@/utils/db';
-import { HISTORY } from '../history/page';
 import { eq, lt, gte, ne } from 'drizzle-orm';
 import { TotalUsageContext } from '@/app/(context)/TotalUsageContext';
 import { UserSubscriptionContext } from "@/app/(context)/UserSubscriptionContext"
 import { UpdateCreditUsageContext } from "@/app/(context)/UpdateCreditUsageContext"
-import axios from 'axios';
+
+interface HISTORY {
+    aiResponse: string | null,
+}
 
 const UsageTrack = () => {
 
@@ -34,14 +36,17 @@ const UsageTrack = () => {
     const GetData = async () => {
 
         // @ts-ignore
-        const rawResult = await db.select().from(AIOutput).where(eq(AIOutput.createdBy, user?.primaryEmailAddress?.emailAddress));
+        const rawResult: HISTORY[] = await db.select({
+            aiResponse: AIOutput.aiResponse,
+            // @ts-ignore
+        }).from(AIOutput).where(eq(AIOutput.createdBy, user?.primaryEmailAddress?.emailAddress));
 
-        const result: HISTORY[] = rawResult.map((item: any) => ({
+        /* const result: HISTORY[] = rawResult.map((item: any) => ({
             ...item,
             aiResponse: item.aiResponse ?? "",
         }));
-
-        getTotalUsage(result);
+ */
+        getTotalUsage(rawResult);
     }
 
     const IsUserSubscribe = async () => {

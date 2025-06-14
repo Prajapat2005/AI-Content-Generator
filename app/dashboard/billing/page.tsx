@@ -9,14 +9,25 @@ import { useUser } from '@clerk/nextjs';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { CheckCircle } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { useEffect } from 'react';
 
-const today = new Date()
-const formattedDate = today.toLocaleDateString()
 
 const billing = () => {
 
     const [loading, setLoading] = useState(false);
     const { user } = useUser();
+
+    const [formattedDate, setFormattedDate] = useState<string | null>(null);
+
+    useEffect(() => {
+        const now = new Date();
+        const day = String(now.getDate()).padStart(2, '0');
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        const year = now.getFullYear();
+        const dateStr = `${day}/${month}/${year}`;
+        setFormattedDate(dateStr);
+    }, []);
+
 
     const CreateSubscription = async () => {
         setLoading(true);

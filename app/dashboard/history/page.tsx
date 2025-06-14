@@ -1,6 +1,8 @@
+"use client"
 import { HistoryLog } from "@/app/dashboard/_components/history-log"
 
 export default function HistoryPage() {
+
   return (
     <div className="container py-10 px-4 md:px-6">
       <div className="max-w-5xl mx-auto">

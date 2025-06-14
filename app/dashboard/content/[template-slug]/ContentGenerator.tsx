@@ -8,7 +8,7 @@ import Chat from '@/utils/AiModel'
 import { db } from '@/utils/db'
 import { AIOutput } from '@/utils/schema'
 import { useUser } from '@clerk/nextjs'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { TotalUsageContext } from '@/app/(context)/TotalUsageContext'
 import { useRouter } from 'next/navigation'
 import { UserSubscriptionContext } from "@/app/(context)/UserSubscriptionContext"
@@ -17,9 +17,6 @@ import { UpdateCreditUsageContext } from "@/app/(context)/UpdateCreditUsageConte
 interface Props {
     templateSlug: string
 }
-
-const today = new Date()
-const formattedDate = today.toLocaleDateString()
 
 const ContentGenerator = ({ templateSlug }: Props) => {
     const selectedTemplate: TEMPLATE | undefined = Templates?.find((item) =>
@@ -32,11 +29,21 @@ const ContentGenerator = ({ templateSlug }: Props) => {
     const router = useRouter();
     const { userSubscription, setUserSubscription } = useContext(UserSubscriptionContext);
     const { updateCreditUsageContext, setUpdateCreditUsageContext } = useContext(UpdateCreditUsageContext);
+    const [formattedDate, setFormattedDate] = useState<string | null>(null);
+
+    useEffect(() => {
+        const now = new Date();
+        const day = String(now.getDate()).padStart(2, '0');
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        const year = now.getFullYear();
+        const dateStr = `${day}/${month}/${year}`;
+        setFormattedDate(dateStr);
+    }, []);
 
     const GenerateAIContent = async (formData: any) => {
 
         if (totalUsage >= (userSubscription ? 100000 : 100000)) {
-            console.log("please Updrate");
+            console.log("please Update");
             router.push('/dashboard/billing')
             return;
         }
@@ -75,16 +82,15 @@ const ContentGenerator = ({ templateSlug }: Props) => {
     }
 
     return (
-        <div>
-            <div className='grid grid-cols-1 md:grid-cols-3 gap-10 p-5'>
-                <FormSection
-                    selectedTemplate={selectedTemplate}
-                    userFormInput={userFormInput}
-                    loading={loading}
-                />
-                <div className='col-span-2'>
-                    <OutputSection aiOutput={aiOutput} />
-                </div>
+
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-5 h-100vh'>
+            <FormSection
+                selectedTemplate={selectedTemplate}
+                userFormInput={userFormInput}
+                loading={loading}
+            />
+            <div className='col-span-2'>
+                <OutputSection aiOutput={aiOutput} />
             </div>
         </div>
     )

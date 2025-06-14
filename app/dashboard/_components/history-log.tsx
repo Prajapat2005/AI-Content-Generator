@@ -1,58 +1,62 @@
 "use client"
-
 import { useState } from "react"
 import { EventRow } from "./event-row"
 import { Card } from "@/components/ui/card"
+import { db } from "@/utils/db"
+import { AIOutput } from "@/utils/schema"
+import { useEffect } from "react"
+import { useUser } from "@clerk/nextjs"
+import { eq } from "drizzle-orm"
 
-const sampleEvents = [
-  {
-    id: "evt_1",
-    type: "User Login",
-    description: "User successfully authenticated via email and password",
-    timestamp: new Date("2023-11-10T08:23:15"),
-  },
-  {
-    id: "evt_2",
-    type: "File Upload",
-    description: "User uploaded document 'quarterly-report.pdf' (2.4MB)",
-    timestamp: new Date("2023-11-09T14:05:32"),
-  },
-  {
-    id: "evt_3",
-    type: "Payment Processed",
-    description: "Payment of $129.99 processed successfully for Premium Plan subscription",
-    timestamp: new Date("2023-11-08T11:42:07"),
-  },
-  {
-    id: "evt_4",
-    type: "Account Update",
-    description: "User updated profile information including contact details and preferences",
-    timestamp: new Date("2023-11-07T16:30:45"),
-    status: "info",
-  },
-  {
-    id: "evt_5",
-    type: "API Request",
-    description: "External API request to /api/data/sync completed with status 200",
-    timestamp: new Date("2023-11-06T09:12:38"),
-    status: "warning",
-  },
-]
+export interface OUT {
+  id: number,
+  templateSlug: string,
+  createdAt: string | null,
+  aiResponse: string | null,
+}
+
+
 
 export function HistoryLog() {
-  const [events, setEvents] = useState(sampleEvents)
+  const [events, setEvents] = useState<Array<OUT>>([]);
+
+  const { user } = useUser();
+
+  const fetch = async () => {
+    //@ts-ignore
+    try {
+      const result: OUT[] = await db.select({
+        id: AIOutput.id,
+        templateSlug: AIOutput.templateSlug,
+        createdAt: AIOutput.createdAt,
+        aiResponse: AIOutput.aiResponse,
+        // @ts-ignore
+      }).from(AIOutput).where(eq(AIOutput.createdBy, user?.primaryEmailAddress?.emailAddress));
+
+      setEvents(result);
+      console.log(result);
+
+    } catch (e) {
+      // @ts-ignore
+      console.error(e.message);
+    }
+  }
+
+  useEffect(() => {
+    fetch();
+  }, []);
 
   return (
     <Card className="overflow-hidden border shadow-sm">
-      <div className="bg-muted/80 px-4 py-3 hidden md:grid md:grid-cols-12 gap-4 font-medium text-sm border-b">
+      <div className="bg-muted/80 px-4 py-3 hidden md:grid md:grid-cols-12 gap-4 font-medium text-sm border-b ">
         <div className="md:col-span-3">Type</div>
-        <div className="md:col-span-5">Description</div>
-        <div className="md:col-span-3">Date & Time</div>
-        <div className="md:col-span-1 text-right">Action</div>
+        <div className="md:col-span-6">Description</div>
+        <div className="md:col-span-2">Date & Time</div>
+        <div className="md:col-span-1">Action</div>
       </div>
       <div className="divide-y">
-        {events.map((event) => (
-          <EventRow key={event.id} event={event} />
+        {events.map((ele) => (
+          <EventRow key={ele.id} event={ele} />
         ))}
       </div>
     </Card>

@@ -40,7 +40,7 @@ const OutputSection = ({ aiOutput }: PROPS) => {
     }
 
     return (
-        <div className='bg-white shadow-lg border rounded-lg'>
+        <div className='bg-white shadow-lg border rounded-lg h-full'>
             <div className='flex justify-between items-center p-3'>
                 <h2 className='font-medium text-lg text-bold'>Your Result</h2>
                 <Button className='flex gap-2'
@@ -50,9 +50,9 @@ const OutputSection = ({ aiOutput }: PROPS) => {
             </div>
             <Editor
                 ref={editorRef}
-                initialValue="Your result is generating"
+                initialValue=" "
                 initialEditType="wysiwyg"
-                height="600px"
+                height="100%"
                 useCommandShortcut={true}
                 onChange={onChange}
             />
