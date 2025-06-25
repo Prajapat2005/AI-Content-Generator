@@ -1,3 +1,51 @@
+
+# 🎙️ Voice Translator GPT
+
+A multilingual voice-to-voice translation app powered by OpenAI and Murf AI. Speak in your native language and get real-time translated audio in another language using realistic AI voices.
+
+## 🚀 Features
+
+- 🎤 **Voice Input** – Speak directly via your microphone
+- 🌐 **Translation** – Real-time translation using GPT or translation APIs
+- 🗣️ **Natural Voice Output** – Translated audio generated using Murf API
+- 🌍 Supports multiple languages
+- 🧠 Built with AI, fast and human-like
+
+---
+
+## 📽️ Demo
+
+👉 [Watch Demo](#)  
+(Embed your video demo here)
+
+---
+
+## 🔗 Live App
+
+[Try the App](#)  
+(If deployed, insert your Vercel/Netlify link here)
+
+---
+
+## 🧰 Tech Stack
+
+- **Frontend**: React / Next.js
+- **Backend**: Node.js / Express (if applicable)
+- **APIs**:
+  - OpenAI API (for translation)
+  - Murf API (for text-to-speech)
+- **Tools**: Web Speech API / Recorder.js / Tailwind CSS
+
+---
+
+## 🛠️ Setup Instructions
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/yourusername/voice-translator-gpt.git
+   cd voice-translator-gpt
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
